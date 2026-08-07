@@ -9,7 +9,7 @@
   /* ---------------------------------------------------------------------
      Config
   --------------------------------------------------------------------- */
-  const API_URL = 'https://mental-health-score-predictor-pgkg.onrender.com';
+  const API_URL = 'https://mental-health-score-predictor-pgkg.onrender.com/predict';
 
   /* ---------------------------------------------------------------------
      Custom cursor
