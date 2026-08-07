@@ -256,10 +256,8 @@
   const RING_CIRCUMFERENCE = 2 * Math.PI * 86; // r=86
 
   function scoreProfile(score) {
-    if (score > 8) return { color: 'var(--accent-green)', hex:'#22C55E', emoji: '🌿', label: 'Excellent Mental Health', desc: 'Your habits are strongly supporting your mental wellbeing. Keep it up!' };
-    if (score > 5) return { color: 'var(--accent-green)', hex:'#22C55E', emoji: '😊', label: 'Good Mental Health', desc: 'You’re in a healthy range overall, with room for small improvements.' };
-    if (score === 5) return { color: 'var(--accent-yellow)', hex:'#EAB308', emoji: '🙂', label: 'Needs Attention', desc: 'You’re at the midpoint — some small adjustments could help improve your wellbeing.' };
-    return { color: 'var(--accent-red)', hex:'#EF4444', emoji: '🚨', label: 'High Risk', desc: 'Your inputs suggest significant strain. Please consider speaking with someone you trust or a professional.' };
+    if (score < 5) return { color: 'var(--accent-red)', hex:'#EF4444', emoji: '🚨', label: 'High Risk', desc: 'Your inputs suggest significant strain. Please consider speaking with someone you trust or a professional.' };
+    return { color: 'var(--accent-green)', hex:'#22C55E', emoji: '😊', label: 'Good Mental Health', desc: 'You’re in a healthy range overall, with room for small improvements.' };
   }
 
   function renderResult(score, formValues) {
@@ -480,7 +478,6 @@
         throw new Error('Received an unexpected response from the server.');
       }
 
-      showToast('Prediction complete — scroll down to see your results.', 'success');
       renderResult(score, payload);
 
     } catch (err) {
