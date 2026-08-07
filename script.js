@@ -252,13 +252,13 @@
   const resultDesc = document.getElementById('resultDesc');
   const resultBadge = document.getElementById('resultBadge');
 
+  const MAX_SCORE = 10;
   const RING_CIRCUMFERENCE = 2 * Math.PI * 86; // r=86
 
   function scoreProfile(score) {
-    if (score >= 90) return { color: 'var(--accent-green)',  hex:'#22C55E', emoji: '🌿', label: 'Excellent Mental Health', desc: 'Your habits are strongly supporting your mental wellbeing. Keep it up!' };
-    if (score >= 75) return { color: 'var(--accent-green)',  hex:'#22C55E', emoji: '😊', label: 'Good Mental Health', desc: 'You\u2019re in a healthy range overall, with room for small improvements.' };
-    if (score >= 60) return { color: 'var(--accent-yellow)', hex:'#EAB308', emoji: '🙂', label: 'Moderate Mental Health', desc: 'A mixed picture — a few lifestyle tweaks could meaningfully help.' };
-    if (score >= 40) return { color: 'var(--accent-orange)', hex:'#F97316', emoji: '⚠️', label: 'Needs Attention', desc: 'Several factors may be weighing on your wellbeing. Consider adjusting routines.' };
+    if (score > 8) return { color: 'var(--accent-green)', hex:'#22C55E', emoji: '🌿', label: 'Excellent Mental Health', desc: 'Your habits are strongly supporting your mental wellbeing. Keep it up!' };
+    if (score > 5) return { color: 'var(--accent-green)', hex:'#22C55E', emoji: '😊', label: 'Good Mental Health', desc: 'You’re in a healthy range overall, with room for small improvements.' };
+    if (score === 5) return { color: 'var(--accent-yellow)', hex:'#EAB308', emoji: '🙂', label: 'Needs Attention', desc: 'You’re at the midpoint — some small adjustments could help improve your wellbeing.' };
     return { color: 'var(--accent-red)', hex:'#EF4444', emoji: '🚨', label: 'High Risk', desc: 'Your inputs suggest significant strain. Please consider speaking with someone you trust or a professional.' };
   }
 
@@ -272,7 +272,7 @@
     const profile = scoreProfile(score);
 
     // Circular progress ring
-    const offset = RING_CIRCUMFERENCE - (Math.min(Math.max(score, 0), 100) / 100) * RING_CIRCUMFERENCE;
+    const offset = RING_CIRCUMFERENCE - (Math.min(Math.max(score, 0), MAX_SCORE) / MAX_SCORE) * RING_CIRCUMFERENCE;
     ringFill.style.stroke = profile.hex;
     ringFill.style.strokeDasharray = `${RING_CIRCUMFERENCE}`;
     // Force reflow so the transition replays every time
@@ -373,7 +373,7 @@
       data: {
         labels: ['Score', 'Remaining'],
         datasets: [{
-          data: [score, Math.max(0, 100 - score)],
+          data: [score, Math.max(0, MAX_SCORE - score)],
           backgroundColor: [profile.hex, 'rgba(255,255,255,0.06)'],
           borderWidth: 0,
           hoverOffset: 4,
@@ -391,7 +391,7 @@
             borderColor: 'rgba(255,255,255,0.1)',
             borderWidth: 1,
             callbacks: {
-              label: (ctx) => ctx.label === 'Score' ? `Score: ${score.toFixed(1)}` : null
+              label: (ctx) => ctx.label === 'Score' ? `Score: ${score.toFixed(1)} / ${MAX_SCORE}` : null
             }
           }
         }
